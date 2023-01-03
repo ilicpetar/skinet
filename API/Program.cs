@@ -21,6 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
@@ -70,7 +72,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 {
-    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
+    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"),true);
     return ConnectionMultiplexer.Connect(configuration);
 });
 
